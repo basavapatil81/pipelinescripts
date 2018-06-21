@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "Hello World"
+var="hostname"
+# print it
+printf "%s\n" "$var"
+echo `cat /etc/hostname`
