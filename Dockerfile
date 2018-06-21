@@ -1,6 +1,6 @@
-FROM mycentos:v2
+FROM scratch
 
-MAINTAINER  mynew  demo
+ADD CentOS-7-x86_64.qcow2 /
 
 RUN yum -y install httpd php
 
