@@ -1,0 +1,52 @@
+FROM centos:7
+
+ENV PATH="/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/local/rvm/bin:${PATH}"
+
+MAINTAINER Basavaraj Patil <Basavaraj.patil@fireeye.com>
+
+RUN yum update -y
+RUN yum install -y which
+RUN yum install -y curl gpg gcc gcc-c++ make
+RUN yum install -y ruby-devel ruby-gems
+RUN yum install -y libyaml-devel
+
+RUN yum groupinstall -y "Development Tools"
+RUN yum install -y libxslt-devel libxml2-devel
+RUN yum install -y wget tenet rng-tools
+RUN yum install -y epel-release
+RUN yum install -y nodejs
+RUN yum install -y mysql-devel
+
+# Get ruby version manager
+RUN mkdir -p /usr/local/rvm/bin
+RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+RUN curl -sSL https://get.rvm.io | bash -s stable
+#RUN usermod -a -G rvm `whoami`
+RUN source /etc/profile.d/rvm.sh
+
+# Install ruby 1.9.3
+RUN rvm requirements
+RUN rvm install 1.9.3
+RUN rvm use 1.9.3 --default
+
+# Install fpm and sass
+RUN gem install fpm
+RUN gem install sass
+
+# Install python and pip
+RUN yum install -y python-devel python-wheel
+RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+RUN python get-pip.py
+
+# Install/Update Virtualenv using pip
+RUN pip install -U virtualenv
+RUN pip install pyyaml
+
+# Install grunt-cli and saas using npm
+RUN npm uninstall --save grunt-contrib-sass
+RUN npm install -g grunt-cli
+RUN npm install --save node-sass grunt-sass
+RUN mkdir -p /packages
+RUN chown 5556:1000 /packages
+
+CMD ["/bin/sh"]
