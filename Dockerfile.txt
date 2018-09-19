@@ -2,7 +2,7 @@ FROM centos:7
 
 ENV PATH="/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/local/rvm/bin:${PATH}"
 
-MAINTAINER Basavaraj Patil <Basavaraj.patil@fireeye.com>
+MAINTAINER Basavaraj Patil <Basavaraj.patil@.com>
 
 RUN yum update -y
 RUN yum install -y which
